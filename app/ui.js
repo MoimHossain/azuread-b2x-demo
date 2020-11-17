@@ -19,18 +19,16 @@ function updateUI(data, endpoint) {
     console.log('Graph API responded at: ' + new Date().toString());
 
     if (endpoint === graphConfig.graphMeEndpoint) {
+    
         const title = document.createElement('p');
-        title.innerHTML = "<strong>Title: </strong>" + data.jobTitle;
+        title.innerHTML = "<strong>Partner Name: </strong>" + data[partnerProperty];
         const email = document.createElement('p');
-        email.innerHTML = "<strong>Mail: </strong>" + data.mail;
-        const phone = document.createElement('p');
-        phone.innerHTML = "<strong>Phone: </strong>" + data.businessPhones[0];
-        const address = document.createElement('p');
-        address.innerHTML = "<strong>Location: </strong>" + data.officeLocation;
+        email.innerHTML = "<strong>Surname: </strong>" + data.surname;
+
+
         profileDiv.appendChild(title);
         profileDiv.appendChild(email);
-        profileDiv.appendChild(phone);
-        profileDiv.appendChild(address);
+ 
 
     } else if (endpoint === graphConfig.graphMailEndpoint) {
         if (data.value.length < 1) {
