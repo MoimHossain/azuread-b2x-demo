@@ -28,7 +28,7 @@ namespace AadBxApprovals
 
             if (!string.IsNullOrWhiteSpace(email))
             {
-                var payload = await TableStorage.GetAsync(email);
+                var payload = await TableStorage.GetAsync(email, log);
                 if (payload == null)
                 {   // never registered before- first time user
                     await TableStorage.AddAsync(email);
@@ -61,7 +61,7 @@ namespace AadBxApprovals
 
             if (!string.IsNullOrWhiteSpace(email))
             {
-                var payload = await TableStorage.GetAsync(email);               
+                var payload = await TableStorage.GetAsync(email, log);               
             }
             return Responses.ContinueResponse;
         }

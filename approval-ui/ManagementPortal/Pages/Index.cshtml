@@ -1,0 +1,90 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Azure AD External Identity Demo - Management portal</p>
+
+    <p id="conentPara">
+
+    </p>
+</div>
+
+<script type="text/x-tmpl" id="tmpl-demo">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">When</th>
+                <th scope="col">State</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for (var i=0; i<o.length; i++) { %}
+            <tr>
+                <th scope="row">{%=(i + 1)%}</th>
+                <td>{%=o[i].email%}</td>
+                <td>{%=jQuery.timeago(o[i].timestamp)%}</td>
+                <td class="{%=(o[i].state === 0 ? "bg-warning" : (o[i].state === 1? "bg-success" : "bg-danger"))%}" >{%=(o[i].state === 0 ? "Pending" : (o[i].state === 1 ? "Approved" : "Denied"))%}</td>
+                <td>
+                    {% if(o[i].state === 0) { %}
+                        <button onclick="approve('{%=o[i].email%}')" type="button" class="btn btn-success">Success</button>
+                        <button onclick="deny('{%=o[i].email%}')" type="button" class="btn btn-danger">Danger</button>
+                    {% } %}
+                </td>
+            </tr>
+              {% } %}
+        </tbody>
+    </table>
+</script>
+
+<script type="text/javascript">
+
+    function doPostOperation(email, operation) {
+        fetch('/api/invitation/' + operation, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                loadData();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("Something went wrong!");
+            });
+    }
+
+    function approve(email) {
+        doPostOperation(email, "approve");
+    }
+
+    function deny(email) {
+        doPostOperation(email, "reject");
+    }
+
+    function loadData() {
+        fetch('/api/invitation')
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById('conentPara').innerHTML = tmpl('tmpl-demo', data)
+
+            });
+    }
+
+
+    $(document).ready(function () {
+        loadData();
+    });
+
+</script>

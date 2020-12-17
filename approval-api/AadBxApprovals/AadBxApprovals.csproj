@@ -5,8 +5,8 @@
     <UserSecretsId>6c7ae475-98aa-4299-b021-1636f85edf13</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Data.Tables" Version="3.0.0-beta.3" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.10" />
+    <PackageReference Include="Azure.Data.Tables" Version="3.0.0-beta.4" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.0.0-beta.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
   </ItemGroup>
   <ItemGroup>

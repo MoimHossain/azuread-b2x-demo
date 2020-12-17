@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using ManagementPortal;
 
 namespace AadBxApprovals
 {
@@ -24,11 +26,41 @@ namespace AadBxApprovals
             return tableClient;
         }
 
-        public async static Task<PayloadEntity> GetAsync(string email)
+        public async static Task<List<PayloadEntity>> GetAllAsync(ILogger log)
         {
+            log.LogInformation($"Table storage GetAllAsync:");
+
+            var tc = await GetTableClientAsync();
+            var results = tc.Query<PayloadEntity>();
+
+            log.LogInformation($"Table storage GetAsync:: returning {results.Any()}");
+            return results.ToList();
+        }
+
+        public async static Task ChangeStatusAsync(
+            ILogger<InvitationController> log, 
+            string email, ApprovalState status)
+        {
+            log.LogInformation($"Table storage ChangeStatusAsync:: {email}");
+            var (pk, rk) = GetKeys(email);
+            var tc = await GetTableClientAsync();
+
+            var entity = await tc.GetEntityAsync<PayloadEntity>(pk, rk);
+            if(entity != null )
+            {
+                entity.Value.State = status;
+                await tc.UpsertEntityAsync<PayloadEntity>(entity);
+            }
+        }
+
+        public async static Task<PayloadEntity> GetAsync(string email, ILogger log)
+        {
+            log.LogInformation($"Table storage GetAsync:: {email}");
             var (pk, rk) = GetKeys(email);
             var tc = await GetTableClientAsync();
             var results = tc.Query<PayloadEntity>(filter: $"PartitionKey eq '{pk}' and RowKey eq '{rk}'");
+
+            log.LogInformation($"Table storage GetAsync:: returning {results.Any()}");
             return results.FirstOrDefault();
         }
 

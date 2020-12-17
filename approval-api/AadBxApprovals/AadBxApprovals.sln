@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30709.64
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AadBxApprovals", "AadBxApprovals.csproj", "{CE910CBC-2EA6-4FB4-B484-B3250A25BD66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AadBxApprovals", "AadBxApprovals.csproj", "{CE910CBC-2EA6-4FB4-B484-B3250A25BD66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementPortal", "..\..\approval-ui\ManagementPortal\ManagementPortal.csproj", "{9A96AAD5-2BE5-4F11-9977-8ABBC38E694D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CE910CBC-2EA6-4FB4-B484-B3250A25BD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE910CBC-2EA6-4FB4-B484-B3250A25BD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE910CBC-2EA6-4FB4-B484-B3250A25BD66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A96AAD5-2BE5-4F11-9977-8ABBC38E694D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A96AAD5-2BE5-4F11-9977-8ABBC38E694D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A96AAD5-2BE5-4F11-9977-8ABBC38E694D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A96AAD5-2BE5-4F11-9977-8ABBC38E694D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
