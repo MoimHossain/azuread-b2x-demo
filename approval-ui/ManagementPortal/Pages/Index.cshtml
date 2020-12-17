@@ -33,8 +33,8 @@
                 <td class="{%=(o[i].state === 0 ? "bg-warning" : (o[i].state === 1? "bg-success" : "bg-danger"))%}" >{%=(o[i].state === 0 ? "Pending" : (o[i].state === 1 ? "Approved" : "Denied"))%}</td>
                 <td>
                     {% if(o[i].state === 0) { %}
-                        <button onclick="approve('{%=o[i].email%}')" type="button" class="btn btn-success">Success</button>
-                        <button onclick="deny('{%=o[i].email%}')" type="button" class="btn btn-danger">Danger</button>
+                        <button onclick="approve('{%=o[i].email%}')" type="button" class="btn btn-success">Approve</button>
+                        <button onclick="deny('{%=o[i].email%}')" type="button" class="btn btn-danger">Deny</button>
                     {% } %}
                 </td>
             </tr>

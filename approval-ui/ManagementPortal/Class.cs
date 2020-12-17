@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-
+using ManagementPortal;
 
 namespace AadBxApprovals
 {
@@ -24,6 +24,33 @@ namespace AadBxApprovals
             var tableClient = new TableServiceClient(cs).GetTableClient(TableName);
             await tableClient.CreateIfNotExistsAsync();
             return tableClient;
+        }
+
+        public async static Task<List<PayloadEntity>> GetAllAsync(ILogger log)
+        {
+            log.LogInformation($"Table storage GetAllAsync:");
+
+            var tc = await GetTableClientAsync();
+            var results = tc.Query<PayloadEntity>();
+
+            log.LogInformation($"Table storage GetAsync:: returning {results.Any()}");
+            return results.ToList();
+        }
+
+        public async static Task ChangeStatusAsync(
+            ILogger<InvitationController> log,
+            string email, ApprovalState status)
+        {
+            log.LogInformation($"Table storage ChangeStatusAsync:: {email}");
+            var (pk, rk) = GetKeys(email);
+            var tc = await GetTableClientAsync();
+
+            var entity = await tc.GetEntityAsync<PayloadEntity>(pk, rk);
+            if (entity != null)
+            {
+                entity.Value.State = status;
+                await tc.UpsertEntityAsync<PayloadEntity>(entity);
+            }
         }
 
         public async static Task<PayloadEntity> GetAsync(string email, ILogger log)
@@ -51,11 +78,11 @@ namespace AadBxApprovals
             await tc.AddEntityAsync(entity);
         }
 
-        public static Tuple<string, string> GetKeys(string email) 
+        public static Tuple<string, string> GetKeys(string email)
             => new Tuple<string, string>(GetPartitionKey(email), GetRowKey(email));
 
         public static string GetRowKey(string email) => email.Substring(0, email.IndexOf("@"));
-        
+
         public static string GetPartitionKey(string email) => email.Substring(email.IndexOf("@") + 1);
     }
 
